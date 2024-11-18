@@ -5,3 +5,6 @@ pydantic
 # pymongo
 # dnspython
 # mysqlclient
+
+mysql-connector-python
+boto3
