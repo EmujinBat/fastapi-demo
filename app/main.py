@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 from fastapi import FastAPI
-# from typing import Optional
-# from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel
 import mysql.connector
 from mysql.connector import Error
 import json
 import os
-from mysql.connector import RefreshOption
+#from mysql.connector import RefreshOption
 
-# refresh = RefreshOption.LOG | RefreshOption.THREADS
+#refresh = RefreshOption.LOG | RefreshOption.THREADS
 
 DBHOST = "ds2022.cqee4iwdcaph.us-east-1.rds.amazonaws.com"
 DBUSER = "admin"
@@ -48,14 +48,8 @@ def get_genres():
         return {"Error": "MySQL Error: " + str(e)}
 
 @app.get('/songs')
-def get_songs():
-    query = """ 
-    SELECT songs.title, songs.album, songs.artist, songs.year, songs.file, songs.image, genres.genre 
-    FROM songs 
-    JOIN genres 
-    WHERE songs.genre = genres.genreid
-    ORDER BY songs.id:
-    """
+async def get_songs():
+    query = "SELECT songs.title, songs.album, songs.artist, songs.year, songs.file, songs.image, genres.genre FROM songs JOIN genres ON songs.genre = genres.genreid;"
 
     try:    
         cur.execute(query)

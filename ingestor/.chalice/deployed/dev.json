@@ -1,0 +1,23 @@
+{
+  "resources": [
+    {
+      "name": "default-role",
+      "resource_type": "iam_role",
+      "role_arn": "arn:aws:iam::842676020154:role/ingestor-dev",
+      "role_name": "ingestor-dev"
+    },
+    {
+      "name": "s3_handler",
+      "resource_type": "lambda_function",
+      "lambda_arn": "arn:aws:lambda:us-east-1:842676020154:function:ingestor-dev-s3_handler"
+    },
+    {
+      "name": "s3_handler-s3event",
+      "resource_type": "s3_event",
+      "bucket": "kfm8nx-dp1-spotify",
+      "lambda_arn": "arn:aws:lambda:us-east-1:842676020154:function:ingestor-dev-s3_handler"
+    }
+  ],
+  "schema_version": "2.0",
+  "backend": "api"
+}
