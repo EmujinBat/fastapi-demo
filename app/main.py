@@ -9,7 +9,7 @@ import json
 import os
 from mysql.connector import RefreshOption
 
-refresh = RefreshOption.LOG | RefreshOption.THREADS
+# refresh = RefreshOption.LOG | RefreshOption.THREADS
 
 DBHOST = "ds2022.cqee4iwdcaph.us-east-1.rds.amazonaws.com"
 DBUSER = "admin"
@@ -34,8 +34,7 @@ def zone_apex():
     return {"Good Day": "Sunshine!"}
 
 @app.get('/genres')
-async def get_genres():
-    db.cmd_refresh(refresh)
+def get_genres():
     query = "SELECT * FROM genres ORDER BY genreid;"
     try:    
         cur.execute(query)
@@ -46,13 +45,18 @@ async def get_genres():
             json_data.append(dict(zip(headers,result)))
         return(json_data)
     except Error as e:
-        print("MySQL Error: ", str(e))
         return {"Error": "MySQL Error: " + str(e)}
 
 @app.get('/songs')
-async def get_genres():
-    db.cmd_refresh(refresh)
-    query = "SELECT songs.title, songs.album, songs.artist, songs.year, songs.file, songs.image, genres.genre FROM songs JOIN genres WHERE songs.genre = genres.genreid;"
+def get_songs():
+    query = """ 
+    SELECT songs.title, songs.album, songs.artist, songs.year, songs.file, songs.image, genres.genre 
+    FROM songs 
+    JOIN genres 
+    WHERE songs.genre = genres.genreid
+    ORDER BY songs.id:
+    """
+
     try:    
         cur.execute(query)
         headers=[x[0] for x in cur.description]
